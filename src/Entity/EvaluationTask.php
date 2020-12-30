@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\EvaluationTaskRepository;
+use App\Entity\SegmentPair;
+
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +39,22 @@ class EvaluationTask
      * @ORM\Column(type="string", length=1024, nullable=true)
      */
     private $video;
+
+    /**
+     * One annotation task has many segments
+     * @ORM\OneToMany(targetEntity="SegmentPair", mappedBy="task")
+     */
+    private $segments;
+
+    /**
+     * @ORM\Column(type="string", length=1024)
+     */
+    private $title;
+
+    public function __construct()
+    {
+        $this->segments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -88,5 +107,34 @@ class EvaluationTask
         $this->video = $video;
 
         return $this;
+    }
+
+    public function getSegments()
+    {
+        return $this->segments;
+    }
+
+    public function addSegmentPair(SegmentPair $pair): self
+    {
+        $this->segments[] = $pair;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getFirst(): int
+    {
+        return $this->segments[0]->getId();
     }
 }
