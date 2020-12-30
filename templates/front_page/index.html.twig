@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FrontPageController!{% endblock %}
+{% block title %}Evaluation interface{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="row vspace2 justify-content-md-center">
+    <div class="col-md-8">
+        <div>Hello: {{ user.email }}</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/dinel/speech_annotation/src/Controller/FrontPageController.php'|file_link(0) }}">src/Controller/FrontPageController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/dinel/speech_annotation/templates/front_page/index.html.twig'|file_link(0) }}">templates/front_page/index.html.twig</a></code></li>
-    </ul>
+        <h3>List of tasks available</h3>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    {{ task.task.title }}
+                    {%  if not task.complete %}
+                        <i class="text-success fas fa-check left-margin-1em"></i>
+                    {%  endif %}
+                    <a href="{{ path('annotation', {'id': task.task.first}) }}">Annotate</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
+
 {% endblock %}
