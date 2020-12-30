@@ -1,0 +1,78 @@
+.question-block {
+    padding: 1em;
+}
+
+.highlighted {
+    background: greenyellow;
+}
+
+.segment {
+    padding: 1em;
+}
+
+.with-border {
+    border: thin black dotted;
+}
+
+textarea {
+    width: 100%;
+}
+
+.vspace1 {
+    margin-top: 1em;
+}
+
+.vspace2 {
+    margin-top: 2em;
+}
+
+.vspace3 {
+    margin-top: 3em;
+}
+
+#submit-panel {
+    margin-top: 2em;
+}
+
+.preview {
+    font-size: 75%;
+    height: 200px;
+    overflow-y: auto;
+    margin: 1em;
+    position: relative;
+}
+
+.current-segment {
+    background-color: lightgoldenrodyellow;
+}
+
+#tabs, #accordion {
+    font-size: 85%;
+}
+
+div.disabled
+{
+    pointer-events: none;
+
+    /* for "disabled" effect */
+    opacity: 0.5;
+    /*background: #CCC;*/
+}
+
+.left-margin-1em {
+    margin-left: 0.5em;
+}
+
+#annotation-process {
+    font-size: 85%;
+}
+
+#step1 {
+    position: relative;
+}
+
+#next_st1 {
+    position: absolute;
+    bottom: 1em;
+    right: 2em;
+}
