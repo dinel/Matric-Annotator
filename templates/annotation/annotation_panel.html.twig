@@ -1,0 +1,179 @@
+<div id="annotation-process">
+    <h3>Step 1: Initial check</h3>
+    <div id="step1">
+        <div class="answers">
+            Is there anything wrong with the information/message in target segment?
+            <div class="float-right">
+            <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st1_y">Yes</button>
+            <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st1_n">No</button>
+            </div>
+        </div>
+
+        <div class="vspace3 text-right">
+            <button type="button" class="btn next" id="next_st1" disabled>Next</button>
+        </div>
+    </div>
+
+    <h3>Step 2: Information substituted</h3>
+    <div  class="disabled" id="step2">
+        <div class="answers">
+            Is information substituted in the target segment, leading to a distorted meaning?
+            <div class="float-right">
+                <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st2_y">Yes</button>
+                <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st2_n">No</button>
+            </div>
+        </div>
+
+        <div id="step2_extra_info" class="vspace3 disabled">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="substitution-distortion-rate">Rate the distortion on the scale</label>
+                </div>
+                <select class="custom-select" id="substitution-distortion-rate">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+
+            <div class="with-border">This is the explantion</div>
+
+            <textarea id="step2_explanation" rows="3" placeholder="Copy paste the substituted content"></textarea>
+
+        </div>
+
+        <div class="vspace3 text-right">
+            <button type="button" class="btn next" id="next_st2" disabled>Next</button>
+        </div>
+    </div>
+    <!-- End Step 2 -->
+
+    <h3>Step 3: Information omitted</h3>
+    <div  class="disabled" id="step3">
+        <div class="answers">
+            Is information omitted in the target segment, leading to a distorted meaning?
+            <div class="float-right">
+                <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st3_y">Yes</button>
+                <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st3_n">No</button>
+            </div>
+        </div>
+
+        <div id="step3_extra_info" class="vspace3 disabled">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="omission-distortion-rate">Rate the distortion on the scale</label>
+                </div>
+                <select class="custom-select" id="omission-distortion-rate">
+                    <option selected>Choose... </option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+
+            <div class="with-border">This is the explantion</div>
+
+            <textarea id="step3_explanation" rows="3" placeholder="Copy paste the omitted content"></textarea>
+
+        </div>
+
+        <div class="vspace3 text-right">
+            <button type="button" class="btn next" id="next_st3" disabled>Next</button>
+        </div>
+    </div>
+    <!-- End step 3 -->
+
+    <h3>Step 4: Information added</h3>
+    <div class="disabled" id="step4">
+        <div class="answers">
+            Is information added in the target segment, leading to a distorted meaning?
+            <div class="float-right">
+                <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st4_y">Yes</button>
+                <button class="left-margin-1em btn btn-outline-secondary btn-sm" id="q_st4_n">No</button>
+            </div>
+        </div>
+
+        <div id="step4_extra_info" class="vspace3 disabled">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="addition-distortion-rate">Rate the distortion on the scale</label>
+                </div>
+                <select class="custom-select" id="addition-distortion-rate">
+                    <option selected>Choose... </option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+
+            <div class="with-border">This is the explantion</div>
+
+            <textarea id="step4_explanation" rows="3" placeholder="Copy paste the added content"></textarea>
+
+        </div>
+
+        <div class="vspace3 text-right">
+            <button type="button" class="btn next" id="next_st4" disabled>Next</button>
+        </div>
+    </div>
+    <!-- End step 4 -->
+
+    <h3>Step 5: Other problems</h3>
+    <div class="disabled">Second content panel</div>
+</div>
+
+<!--
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Step 1</a></li>
+        <li><a href="#tabs-2">Step 2</a></li>
+        <li><a href="#tabs-3">Step 3</a></li>
+        <li><a href="#tabs-4">Step 4</a></li>
+    </ul>
+
+    <div id="tabs-1">
+        Is there anything wrong with the information/message in target segment?
+        <div class="answers">
+            <button type="button" class="btn yes" id="q2y">Yes</button>
+            <button type="button" class="btn no" id="q2n">No</button>
+        </div>
+    </div>
+
+    <div id="tabs-2">
+
+    </div>
+
+    <div id="tabs-3">
+
+    </div>
+
+    <div id="tabs-4">
+
+    </div>
+</div>
+
+        <div id="q1" class="question-block">
+            <div class="question">Does the target segment carry the same information as the source segment?</div>
+            <div class="answers">
+                <button type="button" class="btn yes" id="q1y">Yes</button>
+                <button type="button" class="btn no" id="q1n">No</button>
+            </div>
+        </div>
+
+        <div id="q2" class="question-block">
+            <div class="question">Is information <b>added/omitted/changed</b> leading to a significant distorted meaning??</div>
+            <div class="answers">
+                <button type="button" class="btn yes" id="q2y">Yes</button>
+                <button type="button" class="btn no" id="q2n">No</button>
+            </div>
+        </div>
+
+        <div id="q3" class="question-block">
+            <div class="question">Is information <b>added/omitted/changed</b> leading to a slightly distorted meaning??</div>
+            <div class="answers">
+                <button type="button" class="btn yes" id="q3y">Yes</button>
+                <button type="button" class="btn no" id="q3n">No</button>
+            </div>
+        </div>
+-->
