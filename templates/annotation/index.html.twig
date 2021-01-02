@@ -1,20 +1,59 @@
+{# /templates/annotation/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AnnotationController!{% endblock %}
+{% block title %}Analyse pairs{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="row vspace3">
+    {% if position == "left" %}
+        {%  include 'annotation/preview.html.twig' %}
+        <script>
+            var left = true;
+        </script>
+    {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/dinel/speech_annotation/src/Controller/AnnotationController.php'|file_link(0) }}">src/Controller/AnnotationController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/dinel/speech_annotation/templates/annotation/index.html.twig'|file_link(0) }}">templates/annotation/index.html.twig</a></code></li>
-    </ul>
+    <div id="annotation-panel" class="col-md-8">
+        <div id="segment_one" class="segment">
+            <b>Segment 1:</b> {{ segment.source }}
+        </div>
+        <div id="segment_two" class="segment" style="margin-bottom: 1em;">
+            <b>Segment 2:</b> {{ segment.target }}
+        </div>
+
+        {%  include 'annotation/annotation_panel.html.twig' %}
+
+        <div id="submit-panel" class="text-center">
+            <button type="button" class="btn btn-primary">Submit</button>
+            {% if segment.prev %}
+            <a href="{{ path('annotation', {'id': segment.prev}) }}">
+                <button type="button" class="btn btn-primary left-margin-1em">Previous</button>
+            </a>
+            {% else %}
+                <button type="button" class="btn btn-primary left-margin-1em" disabled>Previous</button>
+            {% endif %}
+
+            {% if segment.next %}
+            <a href="{{ path('annotation', {'id': segment.next}) }}">
+                <button type="button" class="btn btn-primary left-margin-1em">Next</button>
+            </a>
+            {% else %}
+                <button type="button" class="btn btn-primary left-margin-1em" disabled>Next</button>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if position == "right" %}
+        {%  include 'annotation/preview.html.twig' %}
+        <script>
+            var left = false;
+        </script>
+    {% endif %}
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/annotation.js') }}"></script>
 {% endblock %}
