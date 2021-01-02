@@ -1,0 +1,27 @@
+<div id="preview-panel" class="col-md-4">
+    <strong>Source</strong>
+    <div id="src-preview" class="preview">
+        {%  for preview_segment in task.segments %}
+            {%  if preview_segment.id == segment.id %}
+                <span id="src-current" class="current-segment">{{ preview_segment.source }}</span>
+            {% else %}
+                {{ preview_segment.source }}&nbsp;
+            {% endif %}
+            <br/>
+        {% endfor %}
+    </div>
+
+    <strong>Target</strong>
+    <div id="trg-preview" class="preview">
+        {%  for preview_segment in task.segments %}
+            {%  if preview_segment.id == segment.id %}
+                <span id="trg-current" class="current-segment">{{ preview_segment.target }}</span>
+            {% else %}
+                {{ preview_segment.target }}&nbsp;
+            {% endif %}
+            <br/>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="btn" id="swap-preview"><i class="fas fa-exchange-alt"></i></button>
+</div>
