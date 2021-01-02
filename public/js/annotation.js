@@ -1,5 +1,15 @@
 var answers = [];
 
+const distortions = [];
+distortions["step2"] = "substitution";
+distortions["step3"] = "omission";
+distortions["step4"] = "addition";
+
+const nexts = [];
+nexts["step2"] = ["step3", 2];
+nexts["step3"] = ["step4", 3];
+nexts["step4"] = ["step5", 4];
+
 $(document).ready(function() {
     // ensure the current segment is highlighted
     $('#src-preview').scrollTop(Math.max(0, $('#src-current').position().top - 40));
@@ -45,43 +55,54 @@ $(document).ready(function() {
         $( "#annotation-process" ).accordion( "option", "active", 1 );
     });
 
-    /* Step 2 */
-    $('#q_st2_n').click(function () {
+    /* Step 2-4 */
+
+    $('.step-yes-no').click(function() {
+        let id = $(this).attr('id');
+        let question = id.slice(0, -2);
+        let type = id.slice(-1);
+        let step = $(this).parents('.step').attr('id');
+        console.log("Values:", id, question, type, step);
+
+        if(type == "n") {
+            removeAddSelection($('#' + question + '_y'), $('#' + question + '_n'));
+            answers[question] = "no";
+            $('#' + step + '_extra_info').addClass('disabled');
+        } else {
+            removeAddSelection($('#' + question + '_n'), $('#' + question + '_y'));
+            answers[question] = "yes";
+            $('#' + step + '_extra_info').removeClass('disabled');
+        }
         enableSubmit();
-        removeAddSelection($('#q_st2_y'), $('#q_st2_n'));
-        $('#step2_extra_info').addClass('disabled');
-        answers["q_st2"] = "no";
         checkSubmitButton();
-        checkNextButton($('#next_st2'), answers["q_st2"], ["substitution-distortion-rate", "step2_explanation"],
-            $('#step3'));
+        checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
+            $('#' + nexts[step][0]));
     });
 
-    $('#q_st2_y').click(function () {
-        enableSubmit();
-        removeAddSelection($('#q_st2_n'), $('#q_st2_y'));
-        $('#step2_extra_info').removeClass('disabled');
-        answers["q_st2"] = "yes";
+    $('.distortion-rate').change(function () {
+        let id = $(this).parents('.step').find('.step-yes-no')[0].id;
+        let question = id.slice(0, -2);
+        let step = $(this).parents('.step').attr('id');
+        answers[distortions[step] + "-distortion-rate"] = $(this).val();
         checkSubmitButton();
-        checkNextButton($('#next_st2'), answers["q_st2"], ["substitution-distortion-rate", "step2_explanation"],
-            $('#step3'));
+        checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
+            $('#' + nexts[step][0]));
     });
 
-    $('#substitution-distortion-rate').change(function () {
-        answers["substitution-distortion-rate"] = $('#substitution-distortion-rate').val();
+    $('.explanation').on("keydown focusout", function () {
+        let id = ($(this).parents('.step').find('.step-yes-no'))[0].id;
+        let question = id.slice(0, -2);
+        let step = $(this).parents('.step').attr('id');
+        answers[step + "_explanation"] = $(this).val();
         checkSubmitButton();
-        checkNextButton($('#next_st2'), answers["q_st2"], ["substitution-distortion-rate", "step2_explanation"],
-            $('#step3'));
+        checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
+            $('#' + nexts[step][0]));
     });
 
-    $('#step2_explanation').on("keydown focusout", function () {
-        answers["step2_explanation"] = $('#step2_explanation').val();
-        checkSubmitButton();
-        checkNextButton($('#next_st2'), answers["q_st2"], ["substitution-distortion-rate", "step2_explanation"],
-            $('#step3'));
-    });
-
-    $('#next_st2').click(function () {
-        $( "#annotation-process" ).accordion( "option", "active", 2 );
+    $('.next').click(function () {
+        let step = $(this).parents('.step').attr('id');
+        console.log("Activating", nexts[step][1])
+        $( "#annotation-process" ).accordion( "option", "active", nexts[step][1] );
     });
 });
 
