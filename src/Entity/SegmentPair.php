@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\EvaluationTask;
 use App\Repository\SegmentPairRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +32,23 @@ class SegmentPair
      * @ORM\Column(type="integer", nullable=true)
      */
     private $offset;
+
+    /**
+     * Many segments belong to an EvaluationTask
+     * @ORM\ManyToOne(targetEntity="EvaluationTask", inversedBy="segments")
+     * @ORM\JoinColumn(name="segment_id", referencedColumnName="id")
+     */
+    private $task;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prev;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $next;
 
     public function getId(): ?int
     {
@@ -69,6 +87,43 @@ class SegmentPair
     public function setOffset(?int $offset): self
     {
         $this->offset = $offset;
+
+        return $this;
+    }
+
+    public function getTask(): EvaluationTask
+    {
+        return $this->task;
+    }
+
+    public function setTask(EvaluationTask $task): self
+    {
+        $this->task = $task;
+        $task->addSegmentPair($this);
+
+        return $this;
+    }
+
+    public function getPrev(): ?int
+    {
+        return $this->prev;
+    }
+
+    public function setPrev(?int $prev): self
+    {
+        $this->prev = $prev;
+
+        return $this;
+    }
+
+    public function getNext(): ?int
+    {
+        return $this->next;
+    }
+
+    public function setNext(?int $next): self
+    {
+        $this->next = $next;
 
         return $this;
     }
