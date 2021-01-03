@@ -1,4 +1,5 @@
 var answers = [];
+var changed = false;
 
 const distortions = [];
 distortions["step2"] = "substitution";
@@ -39,6 +40,7 @@ $(document).ready(function() {
         disableNext($('#next_st1'));
         disableStep($('#step2'));
         answers["q_st1"] = "no";
+        changed = true;
         checkSubmitButton();
     });
 
@@ -48,6 +50,7 @@ $(document).ready(function() {
         enableNext($('#next_st1'));
         enableStep($('#step2'));
         answers["q_st1"] = "yes";
+        changed = true;
         checkSubmitButton();
     });
 
@@ -62,7 +65,6 @@ $(document).ready(function() {
         let question = id.slice(0, -2);
         let type = id.slice(-1);
         let step = $(this).parents('.step').attr('id');
-        console.log("Values:", id, question, type, step);
 
         if(type == "n") {
             removeAddSelection($('#' + question + '_y'), $('#' + question + '_n'));
@@ -73,7 +75,7 @@ $(document).ready(function() {
             answers[question] = "yes";
             $('#' + step + '_extra_info').removeClass('disabled');
         }
-        enableSubmit();
+        changed = true;
         checkSubmitButton();
         checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
             $('#' + nexts[step][0]));
@@ -84,6 +86,7 @@ $(document).ready(function() {
         let question = id.slice(0, -2);
         let step = $(this).parents('.step').attr('id');
         answers[distortions[step] + "-distortion-rate"] = $(this).val();
+        changed = true;
         checkSubmitButton();
         checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
             $('#' + nexts[step][0]));
@@ -94,6 +97,7 @@ $(document).ready(function() {
         let question = id.slice(0, -2);
         let step = $(this).parents('.step').attr('id');
         answers[step + "_explanation"] = $(this).val();
+        changed = true;
         checkSubmitButton();
         checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
             $('#' + nexts[step][0]));
@@ -101,7 +105,6 @@ $(document).ready(function() {
 
     $('.next').click(function () {
         let step = $(this).parents('.step').attr('id');
-        console.log("Activating", nexts[step][1])
         $( "#annotation-process" ).accordion( "option", "active", nexts[step][1] );
     });
 });
@@ -132,10 +135,8 @@ function checkNextButton(button, question, values, step) {
         var flag = true;
         var value;
         for(value of values) {
-            console.log("Checking", value);
             if(! (value in answers))  {
                 flag = false;
-                console.log("No");
             }
         }
 
