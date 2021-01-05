@@ -29,6 +29,10 @@ class AnnotationController extends AbstractController
         $segment = $this->getSegmentById($id);
         $task = $segment->getTask();
 
+        $segments = $task->getSegments();
+        $pos = $segments->indexOf($segment);
+        $total = $segments->count();
+
         // check if there is a annotation for this segment
         $annotation = $this->getAnnotation($segment, $this->getUser());
 
@@ -38,6 +42,8 @@ class AnnotationController extends AbstractController
             'position' => $position,
             'user' => $this->getUser(),
             'annotation' => $annotation,
+            'pos' => $pos,
+            'total' => $total,
         ]);
     }
 

@@ -1,6 +1,6 @@
 <div id="side-panel" class="col-md-4">
     <div class="container">
-        <div class="row align-items-stretch">
+        <div class="row">
             <div>
             <ul>
                 <li><a href="#tabs-1">Preview</a></li>
@@ -14,8 +14,19 @@
             </div>
             </div>
         </div>
+
         <div class="row to-bottom">
-            <button type="button" class="btn" id="swap-preview"><i class="fas fa-exchange-alt"></i></button>
+            <div class="col-sm-2">
+                <button type="button" class="btn" id="swap-preview"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="col-sm-10">
+                Progress
+                <div class="progress align-middle" style="padding-bottom: 1px;">
+                    <div id="progressbar" role="progressbar" class="progress-bar-success progress-bar"
+                         aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pos * 100 / total }}"
+                         style="width: {{ pos * 100 / total }}%">{{ pos * 100 / total }}%</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
