@@ -8,7 +8,7 @@
 
 <div class="row vspace3">
     {% if position == "left" %}
-        {%  include 'annotation/preview.html.twig' %}
+        {%  include 'annotation/side_panel.html.twig' %}
         <script>
             var left = true;
         </script>
@@ -45,7 +45,7 @@
     </div>
 
     {% if position == "right" %}
-        {%  include 'annotation/preview.html.twig' %}
+        {%  include 'annotation/side_panel.html.twig' %}
         <script>
             var left = false;
         </script>

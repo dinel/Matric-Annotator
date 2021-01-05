@@ -17,6 +17,7 @@ $(document).ready(function() {
     $('#trg-preview').scrollTop(Math.max(0, $('#trg-current').position().top - 40));
 
     $("#annotation-process").accordion();
+    $( "#side-panel" ).tabs();
 
     // TODO: uncomment
     //$('#submit-panel').hide();
@@ -25,10 +26,10 @@ $(document).ready(function() {
 
         $.ajax({url: "/annotation/move-preview", success: function(result){
                 if(left) {
-                    $('#preview-panel').insertAfter('#annotation-panel');
+                    $('#side-panel').insertAfter('#annotation-panel');
                     left = false;
                 } else {
-                    $('#preview-panel').insertBefore('#annotation-panel');
+                    $('#side-panel').insertBefore('#annotation-panel');
                     left = true;
                 }
             }});

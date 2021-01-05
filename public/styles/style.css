@@ -76,3 +76,18 @@ div.disabled
     bottom: 1em;
     right: 2em;
 }
+
+.ui-tabs-anchor {
+    font-size: 80%;
+}
+
+.to-bottom {
+    position:absolute;
+    bottom:0;
+    font-size: 80%;
+    margin-bottom: 4px;
+}
+
+#help {
+    font-size: 80%;
+}

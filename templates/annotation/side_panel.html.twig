@@ -1,0 +1,21 @@
+<div id="side-panel" class="col-md-4">
+    <div class="container">
+        <div class="row align-items-stretch">
+            <div>
+            <ul>
+                <li><a href="#tabs-1">Preview</a></li>
+                <li><a href="#tabs-2">Help</a></li>
+            </ul>
+            <div id="tabs-1">
+                {%  include 'annotation/preview.html.twig' %}
+            </div>
+            <div id="tabs-2">
+                {%  include 'annotation/help.html.twig' %}
+            </div>
+            </div>
+        </div>
+        <div class="row to-bottom">
+            <button type="button" class="btn" id="swap-preview"><i class="fas fa-exchange-alt"></i></button>
+        </div>
+    </div>
+</div>
