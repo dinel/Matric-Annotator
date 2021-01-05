@@ -1,4 +1,3 @@
-var answers = [];
 var changed = false;
 
 const distortions = [];
@@ -96,16 +95,33 @@ $(document).ready(function() {
         let id = ($(this).parents('.step').find('.step-yes-no'))[0].id;
         let question = id.slice(0, -2);
         let step = $(this).parents('.step').attr('id');
-        answers[step + "_explanation"] = $(this).val();
+        answers[step + "-explanation"] = $(this).val();
         changed = true;
         checkSubmitButton();
-        checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
+        checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "-explanation"],
             $('#' + nexts[step][0]));
     });
 
     $('.next').click(function () {
         let step = $(this).parents('.step').attr('id');
         $( "#annotation-process" ).accordion( "option", "active", nexts[step][1] );
+    });
+
+    $('#btn-save').click(function() {
+        console.log("Sending array ... ", answers);
+        console.log("Sending ... ", JSON.stringify(answers));
+        $.ajax({
+            type: "POST",
+            url: "/annotation/save_evaluation",
+            data: {data:answers},
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert('Error saving the data: ' + textStatus + "Error thrown" + errorThrown);
+            }
+        });
     });
 });
 
