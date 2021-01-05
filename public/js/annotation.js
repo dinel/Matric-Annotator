@@ -6,6 +6,7 @@ distortions["step3"] = "omission";
 distortions["step4"] = "addition";
 
 const nexts = [];
+nexts["step1"] = ["step2", 1];
 nexts["step2"] = ["step3", 2];
 nexts["step3"] = ["step4", 3];
 nexts["step4"] = ["step5", 4];
@@ -16,6 +17,7 @@ $(document).ready(function() {
     $('#trg-preview').scrollTop(Math.max(0, $('#trg-current').position().top - 40));
 
     $("#annotation-process").accordion();
+
     // TODO: uncomment
     //$('#submit-panel').hide();
 
@@ -39,7 +41,7 @@ $(document).ready(function() {
         disableNext($('#next_st1'));
         disableStep($('#step2'));
         answers["q_st1"] = "no";
-        changed = true;
+        valuesChanged();
         checkSubmitButton();
     });
 
@@ -49,7 +51,7 @@ $(document).ready(function() {
         enableNext($('#next_st1'));
         enableStep($('#step2'));
         answers["q_st1"] = "yes";
-        changed = true;
+        valuesChanged();
         checkSubmitButton();
     });
 
@@ -74,7 +76,7 @@ $(document).ready(function() {
             answers[question] = "yes";
             $('#' + step + '_extra_info').removeClass('disabled');
         }
-        changed = true;
+        valuesChanged();
         checkSubmitButton();
         checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
             $('#' + nexts[step][0]));
@@ -85,7 +87,7 @@ $(document).ready(function() {
         let question = id.slice(0, -2);
         let step = $(this).parents('.step').attr('id');
         answers[distortions[step] + "-distortion-rate"] = $(this).val();
-        changed = true;
+        valuesChanged();
         checkSubmitButton();
         checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "_explanation"],
             $('#' + nexts[step][0]));
@@ -96,7 +98,7 @@ $(document).ready(function() {
         let question = id.slice(0, -2);
         let step = $(this).parents('.step').attr('id');
         answers[step + "-explanation"] = $(this).val();
-        changed = true;
+        valuesChanged();
         checkSubmitButton();
         checkNextButton($('#next_' + step), answers[question], [distortions[step] + "-distortion-rate", step + "-explanation"],
             $('#' + nexts[step][0]));
@@ -116,6 +118,10 @@ $(document).ready(function() {
             data: {data:answers},
             success: function(data) {
                 console.log(data);
+                answers['id'] = data.id;
+                changed = false;
+                $('#btn-save').addClass('btn-primary');
+                $('#btn-save').removeClass('btn-danger');
             },
             error: function(XMLHttpRequest, textStatus, errorThrown)
             {
@@ -123,6 +129,8 @@ $(document).ready(function() {
             }
         });
     });
+
+    setInitValues();
 });
 
 /* Submit button */
@@ -201,4 +209,10 @@ function addSelection(element) {
 /* Submit button */
 function checkSubmitButton() {
     console.log(answers);
+}
+
+function valuesChanged() {
+    changed = true;
+    $('#btn-save').removeClass('btn-primary');
+    $('#btn-save').addClass('btn-danger');
 }

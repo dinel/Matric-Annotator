@@ -59,6 +59,58 @@
         let answers = {};
         answers["user"] = {{ user.id }};
         answers["segment"] = {{ segment.id }};
+
+        function setInitValues() {
+            {% if annotation %}
+                answers["id"] = {{ annotation.id }};
+                {% if annotation.QSt1 == "yes" %}
+                    $('#q_st1_y').trigger('click');
+                {% endif %}
+                {% if annotation.QSt1 == "no" %}
+                    $('#q_st1_n').trigger('click');
+                {% endif %}
+
+                {% if annotation.QSt2 == "yes" %}
+                    $('#q_st2_y').trigger('click');
+                {% endif %}
+                {% if annotation.QSt2 == "no" %}
+                    $('#q_st2_n').trigger('click');
+                {% endif %}
+                {%  if annotation.SubstitutionDistortionRate %}
+                    $('#substitution-distortion-rate').val({{ annotation.SubstitutionDistortionRate }}).trigger('change');
+                {% endif %}
+                {%  if annotation.Step2Explanation %}
+                    $('#step2_explanation').val('{{ annotation.Step2Explanation }}').trigger('focusout');
+                {% endif %}
+
+                {% if annotation.QSt3 == "yes" %}
+                    $('#q_st3_y').trigger('click');
+                {% endif %}
+                {% if annotation.QSt3 == "no" %}
+                    $('#q_st3_n').trigger('click');
+                {% endif %}
+                {%  if annotation.OmissionDistortionRate %}
+                    $('#omission-distortion-rate').val({{ annotation.OmissionDistortionRate }}).trigger('change');
+                {% endif %}
+                {%  if annotation.Step3Explanation %}
+                    $('#step3_explanation').val('{{ annotation.Step3Explanation }}').trigger('focusout');
+                {% endif %}
+
+                {% if annotation.QSt4 == "yes" %}
+                    $('#q_st4_y').trigger('click');
+                {% endif %}
+                {% if annotation.QSt4 == "no" %}
+                    $('#q_st4_n').trigger('click');
+                {% endif %}
+                {%  if annotation.AdditionDistortionRate %}
+                    $('#addition-distortion-rate').val({{ annotation.AdditionDistortionRate }}).trigger('change');
+                {% endif %}
+                {%  if annotation.Step4Explanation %}
+                $('#step4_explanation').val('{{ annotation.Step4Explanation }}').trigger('focusout');
+                {% endif %}
+
+            {% endif %}
+        }
     </script>
     <script src="{{ asset('js/annotation.js') }}"></script>
 {% endblock %}

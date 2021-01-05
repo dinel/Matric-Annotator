@@ -20,20 +20,24 @@ class AnnotationController extends AbstractController
      */
     public function indexAction(int $id): Response
     {
+        $session = new Session();
+        $session->start();
+        $position = $session->get("position", "right");
+
         // TODO: check the user is valid and has access to this task
 
         $segment = $this->getSegmentById($id);
         $task = $segment->getTask();
 
-        $session = new Session();
-        $session->start();
-        $position = $session->get("position", "right");
+        // check if there is a annotation for this segment
+        $annotation = $this->getAnnotation($segment, $this->getUser());
 
         return $this->render('annotation/index.html.twig', [
             'segment' => $segment,
             'task' => $task,
             'position' => $position,
             'user' => $this->getUser(),
+            'annotation' => $annotation,
         ]);
     }
 
@@ -72,24 +76,34 @@ class AnnotationController extends AbstractController
             if($data) {
                 if(! array_key_exists("id", $data)) {
                     $annotation = new AnnotatorJudgement();
-                    $annotation->setPair($this->getSegmentById($data["segment"]));
-                    $annotation->setUser($this->getUserById($data["user"]));
-                    $this->copyJudgements($annotation, $data);
-                    $manager = $this->getDoctrine()->getManager();
-                    $manager->persist($annotation);
-                    $manager->flush();
+                } else {
+                    $annotation = $this->getAnnotationById($data["id"]);
+
+                    if(! $annotation) {
+                        return new JsonResponse(array(
+                            'status' => 'Error',
+                            'message' => 'Invalid AnnotatorJudgement ID received'),
+                            400);
+                    }
                 }
+
+                $annotation->setPair($this->getSegmentById($data["segment"]));
+                $annotation->setUser($this->getUserById($data["user"]));
+                $this->copyJudgements($annotation, $data);
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($annotation);
+                $manager->flush();
+
+                return new JsonResponse(array(
+                    'status' => 'Success',
+                    'id' => $annotation->getId()),
+                    200);
             } else {
                 return new JsonResponse(array(
                     'status' => 'Error',
                     'message' => 'No data received'),
                     400);
             }
-
-            return new JsonResponse(array(
-                'status' => 'Success',
-                'message' => "All fine"),
-                200);
         }
     }
 
@@ -132,5 +146,24 @@ class AnnotationController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         return $entityManager->getRepository(User::class)->find($id);
+    }
+
+    /**
+     * Helper function to retrieve the annotation corresponding to an ID
+     * @param int $id the ID of the annotation
+     * @return AnnotatorJudgement the annotation with the given ID
+     */
+    private function getAnnotationById(int $id): AnnotatorJudgement
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        return $entityManager->getRepository(AnnotatorJudgement::class)->find($id);
+    }
+
+
+    private function getAnnotation(SegmentPair $segment, User $user): ?AnnotatorJudgement
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $entityManager->getRepository(AnnotatorJudgement::class);
+        return $repository->findOneBy(['user' => $user, 'pair' => $segment]);
     }
 }
