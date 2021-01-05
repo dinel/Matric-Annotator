@@ -39,7 +39,9 @@
                 <button type="button" class="prev-next btn btn-primary left-margin-1em">Next</button>
             </a>
             {% else %}
-                <button type="button" class="btn btn-primary left-margin-1em" disabled>Next</button>
+            <a href="{{ path('front_page') }}">
+                <button type="button" class="prev-next btn btn-primary left-margin-1em">Finish</button>
+            </a>
             {% endif %}
         </div>
     </div>
