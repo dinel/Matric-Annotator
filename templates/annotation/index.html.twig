@@ -109,6 +109,9 @@
                 $('#step4_explanation').val('{{ annotation.Step4Explanation }}').trigger('focusout');
                 {% endif %}
 
+                $('#btn-save').addClass('btn-primary');
+                $('#btn-save').removeClass('btn-danger');
+
             {% endif %}
         }
     </script>
