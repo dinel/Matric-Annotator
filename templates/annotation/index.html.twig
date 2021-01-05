@@ -25,7 +25,7 @@
         {%  include 'annotation/annotation_panel.html.twig' %}
 
         <div id="submit-panel" class="text-center">
-            <button id="btn-save" type="button" class="btn btn-primary">Save</button>
+            <button id="btn-save" type="button" class="disabled btn btn-primary">Save</button>
             {% if segment.prev %}
             <a href="{{ path('annotation', {'id': segment.prev}) }}">
                 <button type="button" class="btn btn-primary left-margin-1em">Previous</button>

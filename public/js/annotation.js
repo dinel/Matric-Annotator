@@ -208,7 +208,51 @@ function addSelection(element) {
 
 /* Submit button */
 function checkSubmitButton() {
-    console.log(answers);
+    let enable = false;
+
+    if(answers["q_st1"] == "no") {
+        enable = true;
+    } else {
+        let missing = false;
+        if("q_st2" in answers) {
+            if(answers["q_st2"] == "yes") {
+                if((!("substitution-distortion-rate" in answers)) || (!("step2-explanation" in answers))) {
+                    missing = true;
+                }
+            }
+        } else {
+            missing = true;
+        }
+
+        if("q_st3" in answers) {
+            if(answers["q_st3"] == "yes") {
+                if((!("omission-distortion-rate" in answers)) || (!("step3-explanation" in answers))) {
+                    missing = true;
+                }
+            }
+        } else {
+            missing = true;
+        }
+
+        if("q_st4" in answers) {
+            if(answers["q_st4"] == "yes") {
+                if((!("addition-distortion-rate" in answers)) || (!("step4-explanation" in answers))) {
+                    missing = true;
+                }
+            }
+        } else {
+            missing = true;
+        }
+
+        enable = !missing;
+    }
+
+    if(enable) {
+        $('#btn-save').removeClass("disabled");
+    } else {
+        $('#btn-save').addClass('disabled');
+    }
+
 }
 
 function valuesChanged() {
