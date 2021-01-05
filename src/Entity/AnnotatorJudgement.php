@@ -43,7 +43,7 @@ class AnnotatorJudgement
     private $q_st3;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $omission_distortion_rate;
 
