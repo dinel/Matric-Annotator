@@ -68,13 +68,13 @@ class AnnotatorJudgement
     private $step4_explanation;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="SegmentPair")
+     * @ORM\ManyToOne(targetEntity="SegmentPair")
      * @ORM\JoinColumn(name="pair_id", referencedColumnName="id")
      */
     private $pair;
