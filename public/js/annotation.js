@@ -131,6 +131,15 @@ $(document).ready(function() {
         });
     });
 
+    $('.prev-next').click(function () {
+       if(changed) {
+           const result = confirm("You have information which is not saved. Are you sure you want to proceed? If you do, all the changes will be lost");
+           if (! result) {
+               return false;
+           }
+       }
+    });
+
     setInitValues();
 });
 

@@ -28,7 +28,7 @@
             <button id="btn-save" type="button" class="disabled btn btn-primary">Save</button>
             {% if segment.prev %}
             <a href="{{ path('annotation', {'id': segment.prev}) }}">
-                <button type="button" class="btn btn-primary left-margin-1em">Previous</button>
+                <button type="button" class="prev-next btn btn-primary left-margin-1em">Previous</button>
             </a>
             {% else %}
                 <button type="button" class="btn btn-primary left-margin-1em" disabled>Previous</button>
@@ -36,7 +36,7 @@
 
             {% if segment.next %}
             <a href="{{ path('annotation', {'id': segment.next}) }}">
-                <button type="button" class="btn btn-primary left-margin-1em">Next</button>
+                <button type="button" class="prev-next btn btn-primary left-margin-1em">Next</button>
             </a>
             {% else %}
                 <button type="button" class="btn btn-primary left-margin-1em" disabled>Next</button>
