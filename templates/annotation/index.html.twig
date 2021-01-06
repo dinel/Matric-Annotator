@@ -30,26 +30,26 @@
 
         {%  include 'annotation/annotation_panel.html.twig' %}
 
-        <div id="submit-panel" class="text-center">
-            <button id="btn-save" type="button" class="disabled btn btn-primary">Save</button>
+        <nav id="submit-panel" class="text-center navbar fixed-bottom">
+            <button id="btn-save" type="button" class="disabled btn btn-primary btn-sm">Save</button>
             {% if segment.prev %}
             <a href="{{ path('annotation', {'id': segment.prev}) }}">
-                <button type="button" class="prev-next btn btn-primary left-margin-1em">Previous</button>
+                <button type="button" class="prev-next btn btn-primary left-margin-1em btn-sm">Previous</button>
             </a>
             {% else %}
-                <button type="button" class="btn btn-primary left-margin-1em" disabled>Previous</button>
+                <button type="button" class="btn btn-primary left-margin-1em btn-sm" disabled>Previous</button>
             {% endif %}
 
             {% if segment.next %}
             <a href="{{ path('annotation', {'id': segment.next}) }}">
-                <button type="button" class="prev-next btn btn-primary left-margin-1em">Next</button>
+                <button type="button" class="prev-next btn btn-primary left-margin-1em btn-sm">Next</button>
             </a>
             {% else %}
             <a href="{{ path('front_page') }}">
-                <button type="button" class="prev-next btn btn-primary left-margin-1em">Finish</button>
+                <button type="button" class="prev-next btn btn-primary left-margin-1em btn-sm">Finish</button>
             </a>
             {% endif %}
-        </div>
+        </nav>
     </div>
 
     {% if position == "right" %}
