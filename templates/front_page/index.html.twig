@@ -5,20 +5,41 @@
 {% block body %}
 <div class="row vspace2 justify-content-md-center">
     <div class="col-md-8">
-        <div>Hello: {{ user.email }}</div>
+        <div class="text-right">Hello: {{ user.email }} (<a href="{{ path("app_logout") }}">Not you?</a>) </div>
 
-        <h3>List of tasks available</h3>
-        <ul>
+        <div class="vspace3 with-border">
+            Here can be an short explanation of the task and what's on the screen
+        </div>
+
+        <h4 class="vspace3">List of tasks available</h4>
+        <table class="table table-striped vspace2">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Complete?</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for task in tasks %}
-                <li>
-                    {{ task.task.title }}
-                    {%  if not task.complete %}
-                        <i class="text-success fas fa-check left-margin-1em"></i>
-                    {%  endif %}
-                    <a href="{{ path('annotation', {'id': task.task.first}) }}">Annotate</a>
-                </li>
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ task.task.title }}</td>
+                    <td>
+                        {%  if task.complete %}
+                            <i class="text-success fas fa-check left-margin-1em"></i>
+                        {% else %}
+                            <i class="text-danger fas fa-times left-margin-1em"></i>
+                        {%  endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('annotation', {'id': task.task.first}) }}">Annotate</a>
+                    </td>
+                </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+        </table>
     </div>
 </div>
 
