@@ -68,6 +68,12 @@
         <script src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"></script>
         <script>
             var player = videojs('my-video');
+            player.currentTime({{ offset }});
+            {% if offset > 0 %}
+                player.play();
+            {% else %}
+                player.pause();
+            {% endif %}
 
             player.seekButtons({
                 forward: 10,

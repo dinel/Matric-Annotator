@@ -132,11 +132,20 @@ $(document).ready(function() {
     });
 
     $('.prev-next').click(function () {
-       if(changed) {
-           const result = confirm("You have information which is not saved. Are you sure you want to proceed? If you do, all the changes will be lost");
-           if (! result) {
-               return false;
-           }
+        if (typeof player !== 'undefined') {
+            const whereYouAt = player.currentTime();
+            $.ajax({url: "/annotation/set-offset/" + whereYouAt,
+                success: function(){
+                    console.log("Set time to ", whereYouAt);
+                },
+                async: false});
+        }
+
+        if(changed) {
+            const result = confirm("You have information which is not saved. Are you sure you want to proceed? If you do, all the changes will be lost");
+            if (! result) {
+                return false;
+            }
        }
     });
 

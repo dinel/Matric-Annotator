@@ -6,6 +6,7 @@ use App\Entity\Task4User;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FrontPageController extends AbstractController
@@ -15,6 +16,11 @@ class FrontPageController extends AbstractController
      */
     public function index(): Response
     {
+        // if here reset the video offset
+        $session = new Session();
+        $session->start();
+        $session->set("video-offset", "0");
+
         if (! $this->getUser()) {
             return $this->redirectToRoute('app_login');
         }

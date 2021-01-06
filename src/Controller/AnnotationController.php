@@ -23,6 +23,7 @@ class AnnotationController extends AbstractController
         $session = new Session();
         $session->start();
         $position = $session->get("position", "right");
+        $videoOffset = $session->get("video-offset", "0");
 
         // TODO: check the user is valid and has access to this task
 
@@ -44,6 +45,7 @@ class AnnotationController extends AbstractController
             'annotation' => $annotation,
             'pos' => $pos,
             'total' => $total,
+            'offset' => $videoOffset,
         ]);
     }
 
@@ -61,6 +63,18 @@ class AnnotationController extends AbstractController
         } else {
             $session->set("position", "right");
         }
+
+        return new JsonResponse(true);
+    }
+
+    /**
+     * @Route ("/annotation/set-offset/{offset}")
+     */
+    public function setOffsetAction($offset): Response
+    {
+        $session = new Session();
+        $session->start();
+        $session->set("video-offset", $offset);
 
         return new JsonResponse(true);
     }
