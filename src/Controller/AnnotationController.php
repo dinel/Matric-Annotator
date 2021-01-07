@@ -31,6 +31,9 @@ class AnnotationController extends AbstractController
         $task = $segment->getTask();
         $user = $this->getUser();
 
+        $segments = $task->getSegments();
+        $pos = $segments->indexOf($segment);
+
         $em = $this->getDoctrine()->getManager();
         $annotation = $segment->findAnnotationByUser($em, $user);
         $completeness = $task->calculateCompleteness($em, $user);
@@ -41,7 +44,8 @@ class AnnotationController extends AbstractController
             'position' => $position,
             'user' => $this->getUser(),
             'annotation' => $annotation,
-            'pos' => $completeness[0],
+            'pos' => $pos + 1,
+            'complete' => $completeness[0],
             'total' => $completeness[1],
             'offset' => $videoOffset,
         ]);

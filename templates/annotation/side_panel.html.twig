@@ -40,16 +40,20 @@
             {% endif %}
         </div>
 
-        <div class="row vspace3">
+        <div class="row vspace3" style="font-size: 75%;">
             <div class="col-sm-2">
                 <button type="button" class="btn" id="swap-preview"><i class="fas fa-exchange-alt"></i></button>
             </div>
-            <div class="col-sm-10">
-                Progress
+            <div class="col-sm-5 text-center">
+                Segment
+                <div>{{ pos }} of {{ total }}</div>
+            </div>
+            <div class="col-sm-5">
+                Task completeness
                 <div class="progress align-middle" style="padding-bottom: 1px;">
                     <div id="progressbar" role="progressbar" class="progress-bar-success progress-bar"
-                         aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pos * 100 / total }}"
-                         style="width: {{ pos * 100 / total }}%">{{ pos * 100 / total }}%</div>
+                         aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ complete * 100 / total }}"
+                         style="width: {{ complete * 100 / total }}%">{{ complete * 100 / total }}%</div>
                 </div>
             </div>
         </div>
