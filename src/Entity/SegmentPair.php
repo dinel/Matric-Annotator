@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\EvaluationTask;
 use App\Repository\SegmentPairRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -126,5 +126,11 @@ class SegmentPair
         $this->next = $next;
 
         return $this;
+    }
+
+    public function findAnnotationByUser(EntityManager $entityManager, User $user): ?AnnotatorJudgement
+    {
+        $repository = $entityManager->getRepository(AnnotatorJudgement::class);
+        return $repository->findOneBy(['user' => $user, 'pair' => $this]);
     }
 }

@@ -6,6 +6,7 @@ use App\Repository\EvaluationTaskRepository;
 use App\Entity\SegmentPair;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -136,5 +137,20 @@ class EvaluationTask
     public function getFirst(): int
     {
         return $this->segments[0]->getId();
+    }
+
+    public function calculateCompleteness(EntityManager $entityManager, User $user): array
+    {
+        $segments = $this->segments;
+        $noAnnotated = 0;
+        $total = $segments->count();
+
+        foreach ($segments as $segment) {
+            if($segment->findAnnotationByUser($entityManager, $user)) {
+                $noAnnotated++;
+            }
+        }
+
+        return [$noAnnotated, $total];
     }
 }

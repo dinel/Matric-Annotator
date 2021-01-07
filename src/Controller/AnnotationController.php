@@ -29,13 +29,11 @@ class AnnotationController extends AbstractController
 
         $segment = $this->getSegmentById($id);
         $task = $segment->getTask();
+        $user = $this->getUser();
 
-        $segments = $task->getSegments();
-        $pos = $segments->indexOf($segment);
-        $total = $segments->count();
-
-        // check if there is a annotation for this segment
-        $annotation = $this->getAnnotation($segment, $this->getUser());
+        $em = $this->getDoctrine()->getManager();
+        $annotation = $segment->findAnnotationByUser($em, $user);
+        $completeness = $task->calculateCompleteness($em, $user);
 
         return $this->render('annotation/index.html.twig', [
             'segment' => $segment,
@@ -43,8 +41,8 @@ class AnnotationController extends AbstractController
             'position' => $position,
             'user' => $this->getUser(),
             'annotation' => $annotation,
-            'pos' => $pos,
-            'total' => $total,
+            'pos' => $completeness[0],
+            'total' => $completeness[1],
             'offset' => $videoOffset,
         ]);
     }
