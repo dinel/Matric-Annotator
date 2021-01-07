@@ -21,23 +21,30 @@ class FrontPageController extends AbstractController
         $session->start();
         $session->set("video-offset", "0");
 
-        if (! $this->getUser()) {
+        $user = $this->getUser();
+
+        if (! $user) {
             return $this->redirectToRoute('app_login');
         }
 
         // check whether the user is still valid (probably completely unnecessary)
-        if(! $this->isUserValid($this->getUser())) {
+        if(! $this->isUserValid($user)) {
             return $this->redirectToRoute('app_logout');
         }
 
         // get the tasks for this user
         $entityManager = $this->getDoctrine()->getManager();
         $tasks = $entityManager->getRepository(Task4User::class)
-            ->findBy(['user' => $this->getUser()]);
+            ->findBy(['user' => $user]);
+
+        $info_tasks = [];
+        foreach($tasks as $task) {
+            $info_tasks[] = [$task, $task->getTask()->calculateCompleteness($entityManager, $user)];
+        }
 
         return $this->render('front_page/index.html.twig', [
             'user' => $this->getUser(),
-            'tasks' => $tasks,
+            'info_tasks' => $info_tasks,
         ]);
     }
 

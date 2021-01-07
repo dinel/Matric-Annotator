@@ -17,16 +17,19 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
-                <th scope="col">Complete?</th>
+                <th scope="col" class="text-center">Progress</th>
+                <th scope="col" class="text-center">Complete?</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            {% for task in tasks %}
+            {% for info_task in info_tasks %}
                 <tr>
+                    {% set task=info_task[0] %}
                     <th scope="row">{{ loop.index }}</th>
                     <td>{{ task.task.title }}</td>
-                    <td>
+                    <td class="text-center">{{ info_task[1][0] }}/{{ info_task[1][1] }}</td>
+                    <td class="text-center">
                         {%  if task.complete %}
                             <i class="text-success fas fa-check left-margin-1em"></i>
                         {% else %}
