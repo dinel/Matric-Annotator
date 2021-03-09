@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evaluation interface{% endblock %}
+
+{% block body %}
+<div class="row vspace2 justify-content-md-center">
+    <div class="col-md-8">
+        Source language: {{ src_lang }}<br/>
+        Target language: {{ trg_lang }}<br/>
+        Title: {{ title }}<br/>
+        Description: {{ desc }}<br/>
+        Sheet to import: {{ selected }}
+        <table class="table table-striped vspace2">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Source</th>
+                <th scope="col">Target</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pair in pairs %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ pair[0]  }}</td>
+                    <td>{{ pair[1]  }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row vspace2 justify-content-md-center">
+    <div class="col-md-8">
+        <form action="{{ path('do_import_file') }}" method="post" class="justify-content-md-center">
+            <input type="hidden" value="{{ file_name }}" name="file_name">
+            <input type="hidden" value="{{ no_selected }}" name="selected_sheet">
+
+            <div class="vspace3">
+                <input class="btn btn-primary" type="submit" value="Looks good. Import sheet">
+                <a href="{{ path('front_page') }}" class="left-margin-1em btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{%  endblock %}

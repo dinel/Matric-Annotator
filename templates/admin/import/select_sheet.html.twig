@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evaluation interface{% endblock %}
+
+{% block body %}
+<div class="row vspace2 justify-content-md-center">
+    <div class="col-md-8">
+        <form action="{{ path('preview_file') }}" method="post">
+            <label class="my-1 mr-2" for="listSheets">Select which sheet you want to import</label>
+            <select class="custom-select my-1 mr-sm-2" id="listSheets" name="selected-sheet">
+                <option selected>Choose sheet ...</option>
+                {% for sheet in sheets %}
+                    <option value="{{ loop.index0 }}">{{ sheet }}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" value="{{ file_name }}" name="file_name">
+
+            <div class="vspace3">
+                <input class="btn btn-primary" type="submit" value="Import sheet">
+                <a href="{{ path('front_page') }}" class="left-margin-1em btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{%  endblock %}
