@@ -1,0 +1,26 @@
+{% if taskForUsers is empty %}
+    <em>No users assigned</em>
+{% else %}
+    <table class="table table-striped vspace2">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">User name</th>
+            <th scope="col">Progress</th>
+            <th scope="col" class="text-right">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for t4u in taskForUsers %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ t4u.user.email  }}</td>
+                <td>{{ infoTasks[t4u.id][0] }}/{{ infoTasks[t4u.id][1] }}</td>
+                <td class="text-right">
+                    <i class="delete-button left-margin-1em far fa-trash-alt text-danger" data-id="{{ t4u.id }}" data-name="{{ t4u.user.email }}"></i>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

@@ -1,0 +1,67 @@
+{# /admin/task/edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit task{% endblock %}
+
+{% block body %}
+
+<div class="row vspace2 justify-content-md-center">
+    <div class="col-md-10">
+        <h2>{{ task.title }}</h2>
+        <div><em>{{ task.description }}</em></div>
+
+        <div class="vspace3">
+            <h3>Users assigned to the task</h3>
+            <div id="info-users">{% include 'admin/task/list_users.html.twig' %}</div>
+            <div id="users-to-add">
+                {%  include 'admin/task/select_user_to_add.html.twig' %}
+            </div>
+        </div>
+
+        <div class="vspace3">
+            <h3>Preview task</h3>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSegments">
+                Segments
+            </button>
+
+            <div class="collapse" id="collapseSegments">
+                <div class="card card-body">
+                    <table class="table table-striped vspace2">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Source</th>
+                            <th scope="col">Target</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for pair in task.segments %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ pair.source  }}</td>
+                                <td>{{ pair.target  }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="vspace3">
+            <a href="{{ path('home-admin') }}"><button type="button" class="left-margin-1em btn btn-primary" id="btn-add-user">
+                    <i class="fas fa-caret-left"></i> Return to admin</button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var currentTask = {{ task.id }};
+    </script>
+    <script src="{{ asset('js/admin-edit.js') }}"></script>
+{% endblock %}

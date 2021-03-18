@@ -6,7 +6,11 @@ namespace App\Controller;
 
 use App\Entity\EvaluationTask;
 use App\Entity\SegmentPair;
+use App\Entity\Task4User;
+use App\Entity\User;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,6 +53,134 @@ class ImportTaskController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
+    }
+
+    /**
+     * @Route("/admin/edit-task/{id}", name="edit-task")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editTaskAction($id)
+    {
+        $task = $this->getDoctrine()
+                     ->getManager()
+                     ->getRepository(EvaluationTask::class)->find($id);
+        if($task) {
+            list($tasksForUsers, $infoTasks, $usersAvailable) = $this->getTaskUserInfo($task);
+
+            return $this->render("/admin/task/edit.html.twig", [
+                'task' => $task,
+                'taskForUsers' => $tasksForUsers,
+                'infoTasks' => $infoTasks,
+                'usersAvailable' => $usersAvailable,
+            ]);
+        } else {
+            return $this->redirectToRoute("home-admin");
+        }
+    }
+
+    private function getTaskUserInfo($task)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $tasksForUsers = $entityManager->getRepository(Task4User::class)
+                                       ->findBy(['task' => $task]);
+
+        $usersInvolved = [];
+        $infoTasks = [];
+        foreach($tasksForUsers as $t) {
+            $infoTasks[$t->getId()] = $t->getTask()->calculateCompleteness($entityManager, $t->getUser());
+            $usersInvolved[] = $t->getUser();
+        }
+
+        $usersAvailable = array_udiff($entityManager->getRepository(User::class)->findAll(), $usersInvolved,
+            function($a, $b) { return $a->getId() - $b->getId() ;});
+
+        return [$tasksForUsers, $infoTasks, $usersAvailable];
+    }
+
+    /**
+     * @Route("/admin/add-user-to-task/{taskId}/{userId}")
+     * @param $taskId
+     * @param $userId
+     */
+    public function addUserToTaskAction($taskId, $userId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $task4user = $entityManager->getRepository(Task4User::class)
+            ->findBy(['task' => $taskId, 'user' => $userId]);
+        $noError = true;
+        $data = [];
+
+        if($task4user) {
+            $data["message"] = "The user is already assigned to the task";
+            $noError = false;
+        } else {
+            $user = $entityManager->getRepository(User::class)
+                ->find($userId);
+            $task = $entityManager->getRepository(EvaluationTask::class)
+                ->find($taskId);
+
+            if($user && $task) {
+                $task4user = new Task4User();
+                $task4user->setTask($task);
+                $task4user->setUser($user);
+                $task4user->setComplete(false);
+                $entityManager->persist($task4user);
+                $entityManager->flush();
+
+                list($tasksForUsers, $infoTasks, $usersAvailable) = $this->getTaskUserInfo($task);
+
+                $data["message"] = "User added";
+                $data["htmlForUsers"] = $this->render("/admin/task/list_users.html.twig", [
+                    'task' => $task,
+                    'taskForUsers' => $tasksForUsers,
+                    'infoTasks' => $infoTasks,
+                ])->getContent();
+                $data["usersToAdd"] = $this->render('/admin/task/select_user_to_add.html.twig', [
+                    'usersAvailable' => $usersAvailable,
+                ])->getContent();
+            } else {
+                $noError = false;
+                $data["message"] = "The user or the task does not exist";
+            }
+        }
+
+        return new JsonResponse($data, 200);
+    }
+
+    /**
+     * @Route("/admin/remove-user-from-task/{id}")
+     */
+    public function removeUserFromTaskAction($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $task4user = $entityManager->getRepository(Task4User::class)
+            ->find($id);
+        $noError = true;
+        $data = [];
+
+        if(! $task4user) {
+            $data["message"] = "Task could not be found";
+            $noError = false;
+        } else {
+            $task = $task4user->getTask();
+
+            $entityManager->remove($task4user);
+            $entityManager->flush();
+
+            list($tasksForUsers, $infoTasks, $usersAvailable) = $this->getTaskUserInfo($task);
+
+            $data["message"] = "User deleted";
+            $data["htmlForUsers"] = $this->render("/admin/task/list_users.html.twig", [
+                'task' => $task,
+                'taskForUsers' => $tasksForUsers,
+                'infoTasks' => $infoTasks,
+            ])->getContent();
+            $data["usersToAdd"] = $this->render('/admin/task/select_user_to_add.html.twig', [
+                'usersAvailable' => $usersAvailable,
+            ])->getContent();
+        }
+
+        return new JsonResponse($data, 200);
     }
 
     /**

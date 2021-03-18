@@ -1,0 +1,12 @@
+<div class="input-group mb-3 vspace2">
+    <div class="input-group-prepend">
+        <label class="input-group-text" for="add-user">Select user:</label>
+    </div>
+    <select class="custom-select" id="add-user">
+        <option selected disabled>Choose...</option>
+        {% for user in usersAvailable %}
+            <option value="{{ user.id }}">{{ user.email }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" class="left-margin-1em btn btn-primary" id="btn-add-user" disabled>Add user</button>
+</div>
