@@ -46,4 +46,14 @@
     </div>
 </div>
 
+{% if is_granted('ROLE_ADMIN') %}
+    <div class="row justify-content-md-center vspace2">
+        <div class="col-md-8">
+            <h4>Admin tasks</h4>
+            <ul>
+                <li><a href="{{ path('admin-tasks') }}">Manage evaluation tasks</a></li>
+            </ul>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
