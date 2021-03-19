@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/index", name="home-admin")
+     * @Route("/admin/index", name="admin-tasks")
      */
     public function indexAdminAction()
     {
