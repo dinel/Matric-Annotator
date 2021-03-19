@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/index", name="admin-tasks")
+     * @Route("/admin/index-tasks", name="admin-tasks")
      */
     public function indexAdminAction()
     {
@@ -25,7 +25,7 @@ class AdminController extends AbstractController
             $usersPerTask[$task->getId()] = array_map(function($a) { return $a->getUser()->getEmail(); }, $users);
         }
 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/index-tasks.html.twig', [
             'tasks' => $tasks,
             'usersPerTask' => $usersPerTask,
         ]);
