@@ -38,6 +38,13 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <div class="vspace2">
+            <a class="btn btn-primary" href="{{ path('upload_file') }}">Upload a new task</a>
+        </div>
+        <div class="vspace2">
+            <a href="{{ path('front_page') }}"><i class="fas fa-caret-left"></i> Back to main screen</a>
+        </div>
     </div>
 </div>
 {% endblock %}
