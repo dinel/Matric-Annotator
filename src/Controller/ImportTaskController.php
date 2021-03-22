@@ -205,7 +205,7 @@ class ImportTaskController extends AbstractController
         $sheet = $request->request->get('selected_sheet');
         $this->doTheActualImport($inputFileName, $sheet);
 
-        return $this->redirectToRoute("front_page");
+        return $this->redirectToRoute("admin-tasks");
 
     }
 
