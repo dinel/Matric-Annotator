@@ -16,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class AnnotationController extends AbstractController
 {
     /**
+     * @Route("/annotation-new/{id}", name="annotation-new", requirements={"id"="\d+"})
+     */
+    public function indexNewAction(int $id)
+    {
+        return $this->render('annotation/index-new.html.twig', [
+            'render' => "Hello {{ name }}",
+            'name' => 'Dinel',
+        ]);
+    }
+
+    /**
      * @Route("/annotation/{id}", name="annotation", requirements={"id"="\d+"})
      */
     public function indexAction(int $id): Response
